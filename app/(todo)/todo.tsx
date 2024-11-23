@@ -1,40 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState,useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ThemedTodoInput } from '@/components/ThemedTodoInput';
 import { ThemedTodoList } from '@/components/ThemedTodoList';
+import useTodos, { Todo } from '@/hooks/useTodoList';
 
-type Todo = {
-  id: number;
-  text: string;
-};
+
 
 export default function ListScreen() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const { todos, addItem, updateItem, checkedItem } = useTodos();
   const [newTodo, setNewTodo] = useState('');
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const checkedItems = useMemo(() => {
+    return todos.filter((item) => !item.checked);
+  }, [todos]);
+
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
-      setTodos((prev) => [...prev, { id: Date.now(), text: newTodo }]);
+      addItem(newTodo);
       setNewTodo('');
     }
   };
 
   const handleUpdateTodo = () => {
     if (editingTodo && newTodo.trim()) {
-      setTodos((prev) => prev.map((todo) => (todo.id === editingTodo.id ? { ...todo, text: newTodo } : todo)));
+      updateItem(editingTodo.id,newTodo.trim());
       setNewTodo('');
       setEditingTodo(null);
     }
   };
 
-  const handleDeleteTodo = (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  const handleCompletedTodo = (id: string) => {
+    checkedItem(id);
   };
 
   const handleEditTodo = (todo: Todo) => {
     setEditingTodo(todo);
-    setNewTodo(todo.text);
+    setNewTodo(todo.title);
   };
 
   return (
@@ -45,7 +47,7 @@ export default function ListScreen() {
         onSubmit={editingTodo ? handleUpdateTodo : handleAddTodo}
         isEditing={!!editingTodo}
       />
-      <ThemedTodoList todos={todos} onEdit={handleEditTodo} onDelete={handleDeleteTodo} />
+      <ThemedTodoList todos={checkedItems} onEdit={handleEditTodo} onChecked={handleCompletedTodo}  readOnly={false}/>
     </View>
   );
 }
