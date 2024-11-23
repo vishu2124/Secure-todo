@@ -5,8 +5,8 @@ import { ThemedView } from '@/components/ThemedView';
 export default function homeScreen() {
   return (
     <SafeAreaView>
-      <ThemedView style={styles.viewContainer}>
-        <ThemedText style={styles.titleContainer} type="subtitle">
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText style={styles.titleContainer} >
           Index screen
         </ThemedText>
       </ThemedView>
@@ -18,8 +18,11 @@ const styles = StyleSheet.create({
   titleContainer: {
     textAlign: 'center',
   },
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
+  },
   viewContainer: {
     justifyContent: 'center',
-    height: '100%',
   },
 });

@@ -1,7 +1,7 @@
 const tintColorLight = '#007AFF'; // Blue for light theme
 const tintColorDark = '#0A84FF'; // Slightly darker blue for dark theme
 
-export default {
+export const Colors = {
   light: {
     text: '#007AFF', // Blue text for light mode
     background: '#FFFFFF', // White background
