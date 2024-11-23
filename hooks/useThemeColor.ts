@@ -9,13 +9,18 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
+  colorType: 'background' | 'text' = 'text',
 ) {
   const theme = useColorScheme() ?? 'light';
   const colorFromProps = props[theme];
 
-  if (colorFromProps) {
-    return colorFromProps;
-  } else {
-    return Colors[theme][colorName];
+  // Default to theme-based color if no custom props are provided
+  const fallbackColor = Colors[theme][colorName];
+
+  // Modify the color selection logic based on `colorType` if necessary
+  if (colorType === 'background' && !colorFromProps) {
+    return Colors[theme].buttonBackground || fallbackColor;
   }
+
+  return colorFromProps || fallbackColor;
 }

@@ -1,25 +1,26 @@
-const tintColorLight = '#007AFF'; // Blue for light theme
-const tintColorDark = '#0A84FF'; // Slightly darker blue for dark theme
-
 export const Colors = {
   light: {
-    text: '#007AFF', // Blue text for light mode
-    background: '#FFFFFF', // White background
-    tint: tintColorLight, // Blue accent
-    icon: '#007AFF', // Blue icons for light theme
-    tabIconDefault: '#C7C7CC', // Neutral for unselected tabs
-    tabIconSelected: tintColorLight, // Blue for selected tabs
-    buttonBackground: '#007AFF', // Blue button background
-    buttonText: '#FFFFFF', // White text on buttons
+    text: '#000000',
+    background: '#ffffff',
+    tint: '#007AFF',
+    icon: '#1c1c1e',
+    tabIconDefault: '#ccc',
+    tabIconSelected: '#007AFF',
+    buttonBackground: '#007AFF',
+    buttonText: '#000',
+    primaryBackground: '#f0f0f0', // Add additional colors here
+    secondaryBackground: '#ffffff',
   },
   dark: {
-    text: '#ECEDEE', // Light gray text for dark mode
-    background: '#000000', // Black background
-    tint: tintColorDark, // Blue accent for dark mode
-    icon: '#9BA1A6', // Neutral gray icons for dark theme
-    tabIconDefault: '#3A3A3C', // Dark gray for unselected tabs
-    tabIconSelected: tintColorDark, // Blue for selected tabs
-    buttonBackground: tintColorDark, // Blue button background
-    buttonText: '#FFFFFF', // White text on buttons
+    text: '#ffffff',
+    background: '#000',
+    tint: '#0A84FF',
+    icon: '#f2f2f2',
+    tabIconDefault: '#ccc',
+    tabIconSelected: '#0A84FF',
+    buttonBackground: '#000',
+    buttonText: '#fff',
+    primaryBackground: '#000',
+    secondaryBackground: '#000',
   },
-};
+} as const; // `as const` ensures keys are strictly typed
