@@ -1,26 +1,25 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+const tintColorLight = '#007AFF'; // Blue for light theme
+const tintColorDark = '#0A84FF'; // Slightly darker blue for dark theme
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const Colors = {
+export default {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: '#007AFF', // Blue text for light mode
+    background: '#FFFFFF', // White background
+    tint: tintColorLight, // Blue accent
+    icon: '#007AFF', // Blue icons for light theme
+    tabIconDefault: '#C7C7CC', // Neutral for unselected tabs
+    tabIconSelected: tintColorLight, // Blue for selected tabs
+    buttonBackground: '#007AFF', // Blue button background
+    buttonText: '#FFFFFF', // White text on buttons
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: '#ECEDEE', // Light gray text for dark mode
+    background: '#000000', // Black background
+    tint: tintColorDark, // Blue accent for dark mode
+    icon: '#9BA1A6', // Neutral gray icons for dark theme
+    tabIconDefault: '#3A3A3C', // Dark gray for unselected tabs
+    tabIconSelected: tintColorDark, // Blue for selected tabs
+    buttonBackground: tintColorDark, // Blue button background
+    buttonText: '#FFFFFF', // White text on buttons
   },
 };
