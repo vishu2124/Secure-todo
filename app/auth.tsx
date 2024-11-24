@@ -5,7 +5,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedButton } from '@/components/ThemedButton';
 
-export default function homeScreen() {
+export default function AuthScreen() {
+  
   const handlePress = async () => {
     try {
       // Trigger the local authentication
