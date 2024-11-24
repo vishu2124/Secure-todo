@@ -12,7 +12,16 @@ type ThemedTodoListProps = {
   readOnly: boolean;
 };
 
-export function ThemedTodoList({ todos, onEdit, onChecked, onDelete, readOnly = false }: ThemedTodoListProps) {
+// Making ThemedTodoListProps optional by using Partial
+type OptionalThemedTodoListProps = Partial<ThemedTodoListProps>;
+
+export function ThemedTodoList({
+  todos = [], // Default empty array for todos
+  onEdit = () => {}, // Default no-op function
+  onChecked = () => {}, // Default no-op function
+  onDelete = () => {}, // Default no-op function
+  readOnly = false, // Default readOnly as false
+}: OptionalThemedTodoListProps) {
   const textColor = useThemeColor({ light: '#000', dark: '#000' }, 'text', 'text');
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
   const checkButtonColor = '#4CAF50'; // Green color for the "Check" button
@@ -59,7 +68,7 @@ export function ThemedTodoList({ todos, onEdit, onChecked, onDelete, readOnly = 
           </View>
         </View>
       )}
-      ListEmptyComponent={<Text style={[styles.emptyListText, { color: textColor }]}>{!readOnly ?'No todos available!':'Non Completed!'}</Text>}
+      ListEmptyComponent={<Text style={[styles.emptyListText, { color: textColor }]}>{!readOnly ? 'No todos available!' : 'Non Completed!'}</Text>}
       contentContainerStyle={styles.listContainer}
     />
   );

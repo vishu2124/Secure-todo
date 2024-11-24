@@ -14,7 +14,7 @@ export default function OldTodoScreen() {
   };
   return (
     <View style={styles.container}>
-      <ThemedTodoList todos={checkedItems} onEdit={() => {}} onChecked={() => {}} onDelete={handleDeleteTodo}  readOnly={true} />
+      <ThemedTodoList todos={checkedItems} onDelete={handleDeleteTodo}  readOnly={true} />
     </View>
   );
 }

@@ -44,7 +44,7 @@ export default function ListScreen() {
         onSubmit={editingTodo ? handleUpdateTodo : handleAddTodo}
         isEditing={!!editingTodo}
       />
-      <ThemedTodoList todos={checkedItems} onEdit={handleEditTodo} onChecked={handleCompletedTodo} onDelete={()=>{}}  readOnly={false} />
+      <ThemedTodoList todos={checkedItems} onEdit={handleEditTodo} onChecked={handleCompletedTodo}  readOnly={false} />
     </View>
   );
 }
