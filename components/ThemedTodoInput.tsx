@@ -10,10 +10,8 @@ type ThemedTodoInputProps = {
 };
 
 export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: ThemedTodoInputProps) {
-  const backgroundColor = useThemeColor({}, 'background', 'background');
-  const textColor = useThemeColor({}, 'text', 'text');
+  const textColor = useThemeColor({ light: 'light', dark: 'dark' }, 'text', 'text');
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
-  const buttonTextColor = useThemeColor({}, 'buttonText', 'text');
 
   return (
     <>
@@ -22,10 +20,10 @@ export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: Themed
         onChangeText={onChange}
         placeholder={isEditing ? 'Update Todo...' : 'Add Todo...'}
         placeholderTextColor={textColor}
-        style={[styles.input, { color: textColor, borderColor: textColor, backgroundColor }]}
+        style={[styles.input, { color: textColor, borderColor: textColor }]}
       />
       <TouchableOpacity onPress={onSubmit} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
-        <Text style={{ color: buttonTextColor }}>{isEditing ? 'Update Todo' : 'Add Todo'}</Text>
+        <Text style={{ color: '#fff' }}>{isEditing ? 'Update Todo' : 'Add Todo'}</Text>
       </TouchableOpacity>
     </>
   );
