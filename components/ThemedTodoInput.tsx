@@ -20,6 +20,13 @@ export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: Themed
   const borderColor = isFocused ? '#007BFF' : textColor; // Blue when focused, default textColor when not
   const inputTextColor = isFocused ? '#007BFF' : textColor; // Same color for text when focused
 
+  // Handle submit on keyboard enter
+  const handleSubmit = () => {
+    if (value.trim()) {  // Check if input has some value
+      onSubmit();  // Call the onSubmit function passed as a prop
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -33,8 +40,10 @@ export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: Themed
         ]}
         onFocus={() => setIsFocused(true)}  // Set focus state to true when the input is focused
         onBlur={() => setIsFocused(false)}  // Set focus state to false when the input loses focus
+        onSubmitEditing={handleSubmit}  // Trigger the submit function when "Enter" key is pressed
+        returnKeyType="done"  // Set the "done" key for the return key (keyboard)
       />
-      <TouchableOpacity onPress={onSubmit} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
+      <TouchableOpacity onPress={handleSubmit} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
         <Text style={styles.buttonText}>{isEditing ? 'Update Todo' : 'Add Todo'}</Text>
       </TouchableOpacity>
     </View>
