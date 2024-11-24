@@ -6,7 +6,8 @@ enum TodoActionEnum {
   CHECKED_ITEM = 'CHECKED_ITEM',
   UPDATE_ITEM = 'UPDATE_ITEM',
   SET_TODOS = 'SET_TODOS',
-  CLEAR_ALL_TODOS = 'CLEAR_ALL_TODOS', // Action to clear all todos
+  CLEAR_ALL_TODOS = 'CLEAR_ALL_TODOS',
+  DELETE_ITEM = 'DELETE_ITEM', // Action to delete a todo
 }
 
 type TodoAction =
@@ -14,7 +15,8 @@ type TodoAction =
   | { type: TodoActionEnum.CHECKED_ITEM; payload: { id: string } }
   | { type: TodoActionEnum.UPDATE_ITEM; payload: { id: string; title: string } }
   | { type: TodoActionEnum.SET_TODOS; payload: TodoState }
-  | { type: TodoActionEnum.CLEAR_ALL_TODOS }; // Type for clearing all todos
+  | { type: TodoActionEnum.CLEAR_ALL_TODOS }
+  | { type: TodoActionEnum.DELETE_ITEM; payload: { id: string } }; // Type for deleting a todo
 
 export type Todo = { id: string; title: string; checked: boolean };
 
@@ -23,7 +25,6 @@ export type TodoState = Todo[];
 const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
   switch (action.type) {
     case TodoActionEnum.ADD_ITEM:
-      // Add the new item at the front of the list for LIFO behavior
       return [{ id: `${Math.random()}`, title: action.payload.title, checked: false }, ...state];
 
     case TodoActionEnum.CHECKED_ITEM: // Soft delete (mark as checked)
@@ -35,8 +36,11 @@ const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
     case TodoActionEnum.SET_TODOS:
       return action.payload;
 
-    case TodoActionEnum.CLEAR_ALL_TODOS: // Clear all todos
-      return [];
+    case TodoActionEnum.CLEAR_ALL_TODOS:
+      return []; // Clears all todos
+
+    case TodoActionEnum.DELETE_ITEM: // Delete a specific todo item
+      return state.filter((todo) => todo.id !== action.payload.id); // Filter out the todo with the given id
 
     default:
       return state;
@@ -66,14 +70,17 @@ const useTodoList = ({ isPersistenceEnabled = true }: UseTodoListConfig = {}) =>
     dispatch({ type: TodoActionEnum.CLEAR_ALL_TODOS });
   }, []);
 
+  const deleteItem = useCallback((id: string) => {
+    dispatch({ type: TodoActionEnum.DELETE_ITEM, payload: { id } });
+  }, []);
+
   // Load todos from storage if persistence is enabled
   useEffect(() => {
     if (isPersistenceEnabled) {
       const loadTodos = async () => {
         const storedTodos = await storage.getItem<Todo[]>(StorageKeys.TODOS);
         if (storedTodos) {
-          // Reverse the order of the todos to match LIFO behavior
-          dispatch({ type: TodoActionEnum.SET_TODOS, payload: storedTodos.reverse() });
+          dispatch({ type: TodoActionEnum.SET_TODOS, payload: storedTodos.reverse() }); // Reverse for LIFO behavior
         }
       };
       loadTodos();
@@ -93,6 +100,7 @@ const useTodoList = ({ isPersistenceEnabled = true }: UseTodoListConfig = {}) =>
     checkedItem,
     updateItem,
     clearAllTodos,
+    deleteItem, // Return delete function
   };
 };
 

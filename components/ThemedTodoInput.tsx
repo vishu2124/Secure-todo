@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -12,6 +12,13 @@ type ThemedTodoInputProps = {
 export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: ThemedTodoInputProps) {
   const textColor = useThemeColor({ light: '#333', dark: '#ccc' }, 'text', 'text');
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
+  
+  // State to track if the input is focused
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Change the input border color and text color when focused
+  const borderColor = isFocused ? '#007BFF' : textColor; // Blue when focused, default textColor when not
+  const inputTextColor = isFocused ? '#007BFF' : textColor; // Same color for text when focused
 
   return (
     <View style={styles.container}>
@@ -20,7 +27,12 @@ export function ThemedTodoInput({ value, onChange, onSubmit, isEditing }: Themed
         onChangeText={onChange}
         placeholder={isEditing ? 'Update Todo...' : 'Add Todo...'}
         placeholderTextColor={textColor}
-        style={[styles.input, { color: textColor, borderColor: textColor }]}
+        style={[
+          styles.input,
+          { color: inputTextColor, borderColor: borderColor }
+        ]}
+        onFocus={() => setIsFocused(true)}  // Set focus state to true when the input is focused
+        onBlur={() => setIsFocused(false)}  // Set focus state to false when the input loses focus
       />
       <TouchableOpacity onPress={onSubmit} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
         <Text style={styles.buttonText}>{isEditing ? 'Update Todo' : 'Add Todo'}</Text>

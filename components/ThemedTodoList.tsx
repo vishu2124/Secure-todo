@@ -8,13 +8,15 @@ type ThemedTodoListProps = {
   todos: Todo[];
   onEdit: (todo: Todo) => void;
   onChecked: (id: string) => void;
+  onDelete: (id: string) => void;
   readOnly: boolean;
 };
 
-export function ThemedTodoList({ todos, onEdit, onChecked, readOnly = false }: ThemedTodoListProps) {
+export function ThemedTodoList({ todos, onEdit, onChecked, onDelete, readOnly = false }: ThemedTodoListProps) {
   const textColor = useThemeColor({ light: '#000', dark: '#000' }, 'text', 'text');
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
   const checkButtonColor = '#4CAF50'; // Green color for the "Check" button
+  const deleteButtonColor = '#F44336'; // Red color for the "Delete" button
 
   return (
     <FlatList
@@ -23,28 +25,41 @@ export function ThemedTodoList({ todos, onEdit, onChecked, readOnly = false }: T
       renderItem={({ item }) => (
         <View style={styles.todoContainer}>
           <Text style={[styles.todoText, { color: textColor }]}>{item.title}</Text>
-          {!readOnly && (
-            <View style={styles.actions}>
-              <TouchableOpacity
-                onPress={() => onEdit(item)}
-                style={[styles.actionButton, { backgroundColor: buttonBackgroundColor }]}>
-                <Text style={styles.buttonText}>Edit</Text>
-              </TouchableOpacity>
+          <View style={styles.actions}>
+            {!readOnly ? (
+              <>
+                <TouchableOpacity
+                  onPress={() => onEdit(item)}
+                  style={[styles.actionButton, { backgroundColor: buttonBackgroundColor }]}>
+                  <Text style={styles.buttonText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (process.env.EXPO_OS === 'ios') {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    }
+                    onChecked(item.id);
+                  }}
+                  style={[styles.actionButton, { backgroundColor: checkButtonColor }]}>
+                  <Text style={styles.buttonText}>Check</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
               <TouchableOpacity
                 onPress={() => {
                   if (process.env.EXPO_OS === 'ios') {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   }
-                  onChecked(item.id);
+                  onDelete(item.id);
                 }}
-                style={[styles.actionButton, { backgroundColor: checkButtonColor }]}>
-                <Text style={styles.buttonText}>Check</Text>
+                style={[styles.actionButton, { backgroundColor: deleteButtonColor }]}>
+                <Text style={styles.buttonText}>Delete</Text>
               </TouchableOpacity>
-            </View>
-          )}
+            )}
+          </View>
         </View>
       )}
-      ListEmptyComponent={<Text style={[styles.emptyListText, { color: textColor }]}>No todos available!</Text>}
+      ListEmptyComponent={<Text style={[styles.emptyListText, { color: textColor }]}>{!readOnly ?'No todos available!':'Non Completed!'}</Text>}
       contentContainerStyle={styles.listContainer}
     />
   );

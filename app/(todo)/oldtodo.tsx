@@ -4,14 +4,17 @@ import { ThemedTodoList } from '@/components/ThemedTodoList';
 import useTodos from '@/hooks/useTodoList';
 
 export default function OldTodoScreen() {
-  const { todos } = useTodos();
+  const { todos,deleteItem } = useTodos();
   const checkedItems = useMemo(() => {
     return todos.filter((item) => item.checked);
   }, [todos]);
 
+  const handleDeleteTodo = (id: string) => {
+    deleteItem(id);
+  };
   return (
     <View style={styles.container}>
-      <ThemedTodoList todos={checkedItems} onEdit={() => {}} onChecked={() => {}} readOnly={true} />
+      <ThemedTodoList todos={checkedItems} onEdit={() => {}} onChecked={() => {}} onDelete={handleDeleteTodo}  readOnly={true} />
     </View>
   );
 }
