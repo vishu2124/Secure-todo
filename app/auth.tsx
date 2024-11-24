@@ -39,18 +39,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between', 
     backgroundColor: '#fff',
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
+    paddingTop: 40, 
   },
   contentContainer: {
     flex: 1,
     justifyContent: 'center', 
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   title: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
+    marginTop: 20, 
   },
   button: {
     alignItems: 'center',
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14, 
     borderRadius: 8, 
     marginBottom: 40, 
-    margin:20
+    margin: 20,
   },
   buttonText: {
     color: '#fff', 

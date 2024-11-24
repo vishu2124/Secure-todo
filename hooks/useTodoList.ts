@@ -6,13 +6,15 @@ enum TodoActionEnum {
   CHECKED_ITEM = 'CHECKED_ITEM',
   UPDATE_ITEM = 'UPDATE_ITEM',
   SET_TODOS = 'SET_TODOS',
+  CLEAR_ALL_TODOS = 'CLEAR_ALL_TODOS', // Action to clear all todos
 }
 
 type TodoAction =
   | { type: TodoActionEnum.ADD_ITEM; payload: { title: string } }
   | { type: TodoActionEnum.CHECKED_ITEM; payload: { id: string } }
   | { type: TodoActionEnum.UPDATE_ITEM; payload: { id: string; title: string } }
-  | { type: TodoActionEnum.SET_TODOS; payload: TodoState };
+  | { type: TodoActionEnum.SET_TODOS; payload: TodoState }
+  | { type: TodoActionEnum.CLEAR_ALL_TODOS }; // Type for clearing all todos
 
 export type Todo = { id: string; title: string; checked: boolean };
 
@@ -21,9 +23,10 @@ export type TodoState = Todo[];
 const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
   switch (action.type) {
     case TodoActionEnum.ADD_ITEM:
-      return [...state, { id: `${Math.random()}`, title: action.payload.title, checked: false }];
+      // Add the new item at the front of the list for LIFO behavior
+      return [{ id: `${Math.random()}`, title: action.payload.title, checked: false }, ...state];
 
-    case TodoActionEnum.CHECKED_ITEM: // Soft delete
+    case TodoActionEnum.CHECKED_ITEM: // Soft delete (mark as checked)
       return state.map((todo) => (todo.id === action.payload.id ? { ...todo, checked: true } : todo));
 
     case TodoActionEnum.UPDATE_ITEM:
@@ -31,6 +34,9 @@ const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
 
     case TodoActionEnum.SET_TODOS:
       return action.payload;
+
+    case TodoActionEnum.CLEAR_ALL_TODOS: // Clear all todos
+      return [];
 
     default:
       return state;
@@ -56,13 +62,18 @@ const useTodoList = ({ isPersistenceEnabled = true }: UseTodoListConfig = {}) =>
     dispatch({ type: TodoActionEnum.UPDATE_ITEM, payload: { id, title } });
   }, []);
 
+  const clearAllTodos = useCallback(() => {
+    dispatch({ type: TodoActionEnum.CLEAR_ALL_TODOS });
+  }, []);
+
   // Load todos from storage if persistence is enabled
   useEffect(() => {
     if (isPersistenceEnabled) {
       const loadTodos = async () => {
         const storedTodos = await storage.getItem<Todo[]>(StorageKeys.TODOS);
         if (storedTodos) {
-          dispatch({ type: TodoActionEnum.SET_TODOS, payload: storedTodos });
+          // Reverse the order of the todos to match LIFO behavior
+          dispatch({ type: TodoActionEnum.SET_TODOS, payload: storedTodos.reverse() });
         }
       };
       loadTodos();
@@ -72,7 +83,7 @@ const useTodoList = ({ isPersistenceEnabled = true }: UseTodoListConfig = {}) =>
   // Save todos to storage whenever they change
   useEffect(() => {
     if (isPersistenceEnabled) {
-      storage.setItem(StorageKeys.TODOS, todos);
+      storage.setItem(StorageKeys.TODOS, todos.reverse()); // Reverse when saving
     }
   }, [todos, isPersistenceEnabled]);
 
@@ -81,6 +92,7 @@ const useTodoList = ({ isPersistenceEnabled = true }: UseTodoListConfig = {}) =>
     addItem,
     checkedItem,
     updateItem,
+    clearAllTodos,
   };
 };
 

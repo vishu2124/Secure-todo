@@ -12,9 +12,9 @@ type ThemedTodoListProps = {
 };
 
 export function ThemedTodoList({ todos, onEdit, onChecked, readOnly = false }: ThemedTodoListProps) {
-  const textColor = useThemeColor({ light: 'light', dark: 'dark' }, 'text', 'text');
+  const textColor = useThemeColor({ light: '#000', dark: '#000' }, 'text', 'text');
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
-  const deleteButtonColor = 'green';
+  const checkButtonColor = '#4CAF50'; // Green color for the "Check" button
 
   return (
     <FlatList
@@ -23,54 +23,81 @@ export function ThemedTodoList({ todos, onEdit, onChecked, readOnly = false }: T
       renderItem={({ item }) => (
         <View style={styles.todoContainer}>
           <Text style={[styles.todoText, { color: textColor }]}>{item.title}</Text>
-          <View style={styles.actions}>
-            {!readOnly ? (
-              <>
-                <TouchableOpacity
-                  onPress={() => onEdit(item)}
-                  style={[styles.actionButton, { backgroundColor: buttonBackgroundColor }]}>
-                  <Text style={{ color: '#fff' }}>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    if (process.env.EXPO_OS === 'ios') {
-                      // Add a soft haptic feedback when pressing down on the tabs.
-                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                    }
-                    onChecked(item.id);
-                  }}
-                  style={[styles.actionButton, { backgroundColor: deleteButtonColor }]}>
-                  <Text style={{ color: '#fff' }}>Check</Text>
-                </TouchableOpacity>
-              </>
-            ) : null}
-          </View>
+          {!readOnly && (
+            <View style={styles.actions}>
+              <TouchableOpacity
+                onPress={() => onEdit(item)}
+                style={[styles.actionButton, { backgroundColor: buttonBackgroundColor }]}>
+                <Text style={styles.buttonText}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  if (process.env.EXPO_OS === 'ios') {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                  onChecked(item.id);
+                }}
+                style={[styles.actionButton, { backgroundColor: checkButtonColor }]}>
+                <Text style={styles.buttonText}>Check</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       )}
+      ListEmptyComponent={
+        <Text style={[styles.emptyListText, { color: textColor }]}>No todos available!</Text>
+      }
+      contentContainerStyle={styles.listContainer}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 5, // Adds spacing to the sides
+    paddingVertical: 5, // Adds spacing between items
+  },
   todoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    marginBottom: 8, // Adds spacing between items
+    borderRadius: 8, // Adds a modern look
+    backgroundColor: '#f9f9f9', // Light background for each item
+    shadowColor: '#000', // Shadow for subtle elevation
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 1, // Elevation for Android
   },
   todoText: {
     fontSize: 16,
+    fontWeight: '500',
+    flex: 1, // Ensures the text takes up available space
+    marginRight: 8, // Adds spacing between text and buttons
   },
   actions: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 5, // Adds spacing between buttons
   },
   actionButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    padding:5,
     borderRadius: 6,
     alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 50, // Ensures consistent button size
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  emptyListText: {
+    textAlign: 'center',
+    fontSize: 16,
+    marginTop: 20,
   },
 });

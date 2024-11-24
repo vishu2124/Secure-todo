@@ -1,62 +1,90 @@
-import React, { useState } from 'react';
-import { View, Switch, StyleSheet, Text } from 'react-native';
+import React from 'react';
 import { router } from 'expo-router';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { ThemedButton } from '@/components/ThemedButton';
 import { useAuth } from '@/hooks/useAuth';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import useTodoList  from '@/hooks/useTodoList';
 
 export default function SettingsPanel() {
-  const currentTheme = useColorScheme(); // 'light' or 'dark'
-  const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark'); // Manage dark mode toggle
-  const backgroundColor = useThemeColor({}, 'background', 'background');
-  const textColor = useThemeColor({}, 'text', 'text');
+  const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
+  const { clearAllTodos } = useTodoList();
   const { logout } = useAuth();
 
-  const handleToggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
+  // Handle logout
   const handleLogout = () => {
     logout();
     router.replace('/');
   };
 
+  // Handle clear all data
+  const handleClearData = () => {
+    // Clear app data (this is an example and may vary based on how you store data)
+    // For example: clear localStorage, reset app state, etc.
+    Alert.alert(
+      'Clear All Data',
+      'Are you sure you want to clear all data?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => {
+          clearAllTodos();
+          router.replace('/(todo)/todo');
+
+          Alert.alert('Data Cleared', 'All data has been cleared successfully.');
+        }},
+      ]
+    );
+  };
+
   return (
-    <View style={[styles.container, { backgroundColor }]}>
-      <Text style={[styles.title, { color: textColor }]}>Settings</Text>
-
-      {/* Dark Mode Toggle */}
-      <View style={styles.switchContainer}>
-        <Text style={[styles.label, { color: textColor }]}>Enable Dark Mode</Text>
-        <Switch value={isDarkMode} onValueChange={handleToggleDarkMode} />
-      </View>
-
+    <SafeAreaView style={styles.container}>
+      <ThemedView style={styles.contentContainer}>
+        <ThemedText style={styles.title}>Settings</ThemedText>
+      </ThemedView>
+      <TouchableOpacity onPress={handleClearData} style={[styles.button, { backgroundColor: '#000' }]}>
+        <Text style={styles.buttonText}>Erase All Data</Text>
+      </TouchableOpacity>
       {/* Logout Button */}
-      <ThemedButton onPress={handleLogout} title="Logout" type="default" />
-    </View>
+      <TouchableOpacity onPress={handleLogout} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
+      {/* Clear Data Button */}
+      
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+  },
+  contentContainer: {
+    flex: 1, 
+    justifyContent: 'flex-start', 
     alignItems: 'center',
+    marginTop: 20, 
   },
   title: {
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#000',
+    marginBottom: 20, 
   },
-  switchContainer: {
-    flexDirection: 'row',
+  button: {
     alignItems: 'center',
-    marginBottom: 30,
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 8,
+    marginBottom: 20, // Space between buttons
+    marginHorizontal: 20, 
   },
-  label: {
-    fontSize: 18,
-    marginRight: 10,
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
