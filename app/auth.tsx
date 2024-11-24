@@ -37,14 +37,14 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 40, 
+    paddingTop: 40,
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
@@ -52,18 +52,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
-    marginTop: 20, 
+    marginTop: 20,
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14, 
-    borderRadius: 8, 
-    marginBottom: 40, 
+    paddingVertical: 14,
+    borderRadius: 8,
+    marginBottom: 40,
     margin: 20,
   },
   buttonText: {
-    color: '#fff', 
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

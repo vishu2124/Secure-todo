@@ -44,9 +44,7 @@ export function ThemedTodoList({ todos, onEdit, onChecked, readOnly = false }: T
           )}
         </View>
       )}
-      ListEmptyComponent={
-        <Text style={[styles.emptyListText, { color: textColor }]}>No todos available!</Text>
-      }
+      ListEmptyComponent={<Text style={[styles.emptyListText, { color: textColor }]}>No todos available!</Text>}
       contentContainerStyle={styles.listContainer}
     />
   );
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
     gap: 5, // Adds spacing between buttons
   },
   actionButton: {
-    padding:5,
+    padding: 5,
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',

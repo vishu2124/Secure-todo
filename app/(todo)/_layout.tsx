@@ -1,16 +1,16 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useCallback } from 'react';
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet } from 'react-native';
 import { Header } from '@/components/Header';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'; // To handle safe area for both iOS and Android
 
 export default function TodoLayout() {
   const [isTodo, setIsTodo] = useState(true);
-  
-  const insets = useSafeAreaInsets(); 
-  
+
+  const insets = useSafeAreaInsets();
+
   const handleShowTodo = useCallback(() => {
     if (!isTodo) {
       setIsTodo(true);
@@ -33,8 +33,7 @@ export default function TodoLayout() {
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.keyboardAvoidingView}
-      >
+        style={styles.keyboardAvoidingView}>
         <Header
           onShowButtonLeft={handleShowTodo}
           onShowButtonRight={handleShowOldTodo}

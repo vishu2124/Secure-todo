@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import useTodoList  from '@/hooks/useTodoList';
+import useTodoList from '@/hooks/useTodoList';
 
 export default function SettingsPanel() {
   const buttonBackgroundColor = useThemeColor({}, 'buttonBackground', 'background');
@@ -20,21 +20,16 @@ export default function SettingsPanel() {
 
   // Handle clear all data
   const handleClearData = () => {
-    // Clear app data (this is an example and may vary based on how you store data)
-    // For example: clear localStorage, reset app state, etc.
-    Alert.alert(
-      'Clear All Data',
-      'Are you sure you want to clear all data?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => {
+    Alert.alert('Clear All Data', 'Are you sure you want to clear all data?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'OK',
+        onPress: () => {
           clearAllTodos();
-          router.replace('/(todo)/todo');
-
           Alert.alert('Data Cleared', 'All data has been cleared successfully.');
-        }},
-      ]
-    );
+        },
+      },
+    ]);
   };
 
   return (
@@ -45,12 +40,10 @@ export default function SettingsPanel() {
       <TouchableOpacity onPress={handleClearData} style={[styles.button, { backgroundColor: '#000' }]}>
         <Text style={styles.buttonText}>Erase All Data</Text>
       </TouchableOpacity>
-      {/* Logout Button */}
+
       <TouchableOpacity onPress={handleLogout} style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
-      {/* Clear Data Button */}
-      
     </SafeAreaView>
   );
 }
@@ -62,17 +55,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   contentContainer: {
-    flex: 1, 
-    justifyContent: 'flex-start', 
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 20, 
+    marginTop: 20,
   },
   title: {
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 20, 
+    marginBottom: 20,
   },
   button: {
     alignItems: 'center',
@@ -80,7 +73,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 8,
     marginBottom: 20, // Space between buttons
-    marginHorizontal: 20, 
+    marginHorizontal: 20,
   },
   buttonText: {
     color: '#fff',
