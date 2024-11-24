@@ -21,9 +21,7 @@ jest.mock('@/hooks/useThemeColor', () => ({
 }));
 
 describe('<ThemedTodoList />', () => {
-  const todos: Todo[] = [
-    { id: '1', title: 'Test Todo 1', checked: false }
-  ];
+  const todos: Todo[] = [{ id: '1', title: 'Test Todo 1', checked: false }];
 
   const mockOnEdit = jest.fn();
   const mockOnChecked = jest.fn();
@@ -40,7 +38,7 @@ describe('<ThemedTodoList />', () => {
 
   test('renders the todo list correctly', () => {
     const { getByText } = render(
-      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />
+      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />,
     );
 
     expect(getByText('Test Todo 1')).toBeTruthy();
@@ -48,7 +46,7 @@ describe('<ThemedTodoList />', () => {
 
   test('calls onEdit when the Edit button is pressed', () => {
     const { getByText } = render(
-      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />
+      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />,
     );
 
     const editButton = getByText('Edit');
@@ -58,7 +56,7 @@ describe('<ThemedTodoList />', () => {
 
   test('calls onChecked when the Check button is pressed', () => {
     const { getByText } = render(
-      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />
+      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />,
     );
 
     const checkButton = getByText('Check');
@@ -68,7 +66,7 @@ describe('<ThemedTodoList />', () => {
 
   test('does not display action buttons when readOnly is true', () => {
     const { queryByText } = render(
-      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={true} />
+      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={true} />,
     );
 
     expect(queryByText('Edit')).toBeNull();
@@ -80,7 +78,7 @@ describe('<ThemedTodoList />', () => {
     process.env.EXPO_OS = 'ios';
 
     const { getByText } = render(
-      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />
+      <ThemedTodoList todos={todos} onEdit={mockOnEdit} onChecked={mockOnChecked} readOnly={false} />,
     );
 
     const checkButton = getByText('Check');
@@ -88,5 +86,4 @@ describe('<ThemedTodoList />', () => {
 
     expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
   });
-
 });

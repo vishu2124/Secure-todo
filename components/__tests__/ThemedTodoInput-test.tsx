@@ -25,13 +25,8 @@ describe('<ThemedTodoInput />', () => {
   });
 
   test('renders correctly and handles text input', () => {
-    const { getByPlaceholderText, getByTestId } = render(
-      <ThemedTodoInput
-        value="Test Todo"
-        onChange={mockOnChange}
-        onSubmit={mockOnSubmit}
-        isEditing={false}
-      />
+    const { getByPlaceholderText } = render(
+      <ThemedTodoInput value="Test Todo" onChange={mockOnChange} onSubmit={mockOnSubmit} isEditing={false} />,
     );
 
     const input = getByPlaceholderText('Add Todo...');
@@ -41,12 +36,7 @@ describe('<ThemedTodoInput />', () => {
 
   test('calls onSubmit when the button is pressed', () => {
     const { getByText } = render(
-      <ThemedTodoInput
-        value="Test Todo"
-        onChange={mockOnChange}
-        onSubmit={mockOnSubmit}
-        isEditing={false}
-      />
+      <ThemedTodoInput value="Test Todo" onChange={mockOnChange} onSubmit={mockOnSubmit} isEditing={false} />,
     );
 
     const button = getByText('Add Todo');
@@ -56,17 +46,10 @@ describe('<ThemedTodoInput />', () => {
 
   test('displays the correct placeholder text when editing', () => {
     const { getByPlaceholderText } = render(
-      <ThemedTodoInput
-        value="Test Todo"
-        onChange={mockOnChange}
-        onSubmit={mockOnSubmit}
-        isEditing={true}
-      />
+      <ThemedTodoInput value="Test Todo" onChange={mockOnChange} onSubmit={mockOnSubmit} isEditing={true} />,
     );
 
     const input = getByPlaceholderText('Update Todo...');
     expect(input).toBeTruthy();
   });
-
- 
 });
