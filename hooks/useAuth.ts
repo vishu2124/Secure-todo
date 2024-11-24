@@ -19,7 +19,7 @@ export const useAuth = (): UseAuthReturnType => {
       if (!hasHardware || !isEnrolled) {
         Alert.alert(
           'Biometric Authentication Not Available',
-          'Your device does not support biometric authentication or no biometric credentials are enrolled.'
+          'Your device does not support biometric authentication or no biometric credentials are enrolled.',
         );
         return false;
       }

@@ -6,7 +6,6 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useAuth } from '@/hooks/useAuth';
 
-
 export default function SettingsPanel() {
   const currentTheme = useColorScheme(); // 'light' or 'dark'
   const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark'); // Manage dark mode toggle
