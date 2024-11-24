@@ -12,18 +12,14 @@ export default function TodoLayout() {
   const insets = useSafeAreaInsets();
 
   const handleShowTodo = useCallback(() => {
-    if (!isTodo) {
       setIsTodo(true);
       router.replace('/(todo)/todo');
-    }
-  }, [isTodo]);
+   }, [isTodo]);
 
   const handleShowOldTodo = useCallback(() => {
-    if (isTodo) {
       setIsTodo(false);
       router.replace('/(todo)/oldtodo');
-    }
-  }, [isTodo]);
+   }, []);
 
   const handleNavigateToSettings = useCallback(() => {
     router.replace('/(todo)/setting');
