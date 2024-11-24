@@ -1,5 +1,5 @@
-import React, {useMemo} from 'react';
-import {  View, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { ThemedTodoList } from '@/components/ThemedTodoList';
 import useTodos from '@/hooks/useTodoList';
 
@@ -11,9 +11,8 @@ export default function OldTodoScreen() {
 
   return (
     <View style={styles.container}>
-      <ThemedTodoList todos={checkedItems} onEdit={()=>{}} onChecked={()=>{}} readOnly={true}/>
+      <ThemedTodoList todos={checkedItems} onEdit={() => {}} onChecked={() => {}} readOnly={true} />
     </View>
-  
   );
 }
 

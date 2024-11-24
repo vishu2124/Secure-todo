@@ -1,10 +1,8 @@
-import React, { useState,useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ThemedTodoInput } from '@/components/ThemedTodoInput';
 import { ThemedTodoList } from '@/components/ThemedTodoList';
 import useTodos, { Todo } from '@/hooks/useTodoList';
-
-
 
 export default function ListScreen() {
   const { todos, addItem, updateItem, checkedItem } = useTodos();
@@ -13,7 +11,6 @@ export default function ListScreen() {
   const checkedItems = useMemo(() => {
     return todos.filter((item) => !item.checked);
   }, [todos]);
-
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -24,7 +21,7 @@ export default function ListScreen() {
 
   const handleUpdateTodo = () => {
     if (editingTodo && newTodo.trim()) {
-      updateItem(editingTodo.id,newTodo.trim());
+      updateItem(editingTodo.id, newTodo.trim());
       setNewTodo('');
       setEditingTodo(null);
     }
@@ -47,7 +44,7 @@ export default function ListScreen() {
         onSubmit={editingTodo ? handleUpdateTodo : handleAddTodo}
         isEditing={!!editingTodo}
       />
-      <ThemedTodoList todos={checkedItems} onEdit={handleEditTodo} onChecked={handleCompletedTodo}  readOnly={false}/>
+      <ThemedTodoList todos={checkedItems} onEdit={handleEditTodo} onChecked={handleCompletedTodo} readOnly={false} />
     </View>
   );
 }

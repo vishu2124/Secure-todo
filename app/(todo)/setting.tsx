@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Switch, StyleSheet, Text } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { ThemedButton } from '@/components/ThemedButton'; 
+import { ThemedButton } from '@/components/ThemedButton';
 
 export default function SettingsPanel() {
   const currentTheme = useColorScheme(); // 'light' or 'dark'
@@ -24,13 +24,13 @@ export default function SettingsPanel() {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <Text style={[styles.title, { color: textColor }]}>Settings</Text>
-      
+
       {/* Dark Mode Toggle */}
       <View style={styles.switchContainer}>
         <Text style={[styles.label, { color: textColor }]}>Enable Dark Mode</Text>
         <Switch value={isDarkMode} onValueChange={handleToggleDarkMode} />
       </View>
-      
+
       {/* Logout Button */}
       <ThemedButton onPress={handleLogout} title="Logout" type="default" />
     </View>

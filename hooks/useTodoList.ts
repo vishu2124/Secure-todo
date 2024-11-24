@@ -1,38 +1,33 @@
 import { useCallback, useEffect, useReducer } from 'react';
- import storage, { StorageKeys } from '@/store/storage';
+import storage, { StorageKeys } from '@/store/storage';
 
 enum TodoActionEnum {
   ADD_ITEM = 'ADD_ITEM',
-  CHECKED_ITEM = 'CHECKED_ITEM',  
+  CHECKED_ITEM = 'CHECKED_ITEM',
   UPDATE_ITEM = 'UPDATE_ITEM',
   SET_TODOS = 'SET_TODOS',
 }
 
 type TodoAction =
   | { type: TodoActionEnum.ADD_ITEM; payload: { title: string } }
-  | { type: TodoActionEnum.CHECKED_ITEM; payload: { id: string } } 
+  | { type: TodoActionEnum.CHECKED_ITEM; payload: { id: string } }
   | { type: TodoActionEnum.UPDATE_ITEM; payload: { id: string; title: string } }
   | { type: TodoActionEnum.SET_TODOS; payload: TodoState };
 
-export type Todo = { id: string; title: string; checked: boolean;};
+export type Todo = { id: string; title: string; checked: boolean };
 
 export type TodoState = Todo[];
 
 const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
- 
   switch (action.type) {
     case TodoActionEnum.ADD_ITEM:
-      return [...state, { id: `${Math.random()}`, title: action.payload.title, checked: false}];
-    
-    case TodoActionEnum.CHECKED_ITEM:  // Soft delete
-      return state.map((todo) =>
-        todo.id === action.payload.id ? { ...todo, checked: true } : todo
-      );
+      return [...state, { id: `${Math.random()}`, title: action.payload.title, checked: false }];
+
+    case TodoActionEnum.CHECKED_ITEM: // Soft delete
+      return state.map((todo) => (todo.id === action.payload.id ? { ...todo, checked: true } : todo));
 
     case TodoActionEnum.UPDATE_ITEM:
-      return state.map((todo) =>
-        todo.id === action.payload.id ? { ...todo, title: action.payload.title } : todo
-      );
+      return state.map((todo) => (todo.id === action.payload.id ? { ...todo, title: action.payload.title } : todo));
 
     case TodoActionEnum.SET_TODOS:
       return action.payload;
