@@ -8,6 +8,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   cd ios
+   pod install
    ```
 
 2. Start the app
@@ -42,9 +44,16 @@ To learn more about developing your project with Expo, look at the following res
 - [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
 - [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
+### Prerequisites
 
-Join our community of developers creating universal apps.
+Before running the app, ensure the following tools are installed:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+| Tool      | Minimum Version | Installation Guide                           |
+| --------- | --------------- | -------------------------------------------- |
+| NodeJS    | v22.11.0        | [Download NodeJS](https://nodejs.org/)       |
+| npm       | 10.9.0          | Bundled with NodeJS                          |
+| Java      | zulu@17         | `brew install --cask zulu@17 `               |
+| Ruby      | 3.1.6p260       | [Ruby Downloads](https://www.ruby-lang.org/) |
+| Cocoapods | 1.15.2          | `brew install cocoapods `                    |
+
+### Installation
